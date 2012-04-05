@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+	<title>Student Info</title>
+	<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.css" type="text/css" media="screen" title="no title" charset="utf-8">
+</head>
+<body>
+	<div class="container">
+		
+		
+		<table class="table table-striped">
+		<thead>
+		<tr>
+			<th>Registration Number</th>
+			<th>Student Name</th>
+			<th>Course</th>
+			<th>Branch</th>
+			<th>Campus</th>
+			<th>Gender</th>
+			<th>D.O.B</th>
+			<th>10th Std %</th>
+			<th>Year of passing 10th</th>
+			<th>!0th Board</th>
+				<th>12th Std %</th>
+				<th>Year of passing 12th</th>
+				<th>12th Board</th>
+					<th>Diploma %</th>
+					<th>Year of passing diploma</th>
+					<th>College</th>
+		</tr>
+		
+		</thead>
+		
+		<tbody>
+		<% @students.each do |s| %>
+		  <tr>
+			<td><%= s.regno %></td>
+		  	<td><%= s.name %></td>
+			<td>BTech</td>
+		
+			
+		<td><%= s.branch %></td>
+		
+				<td>SRM Vadapalani</td>
+				
+				<td><%= s.gender %></td>
+				<td><%= s.d %>/<%= s.m %>/<%= s.y %></td>
+				<td><%= s.mark_tenth %></td>
+				<td><%= s.yearofpassing_tenth %> <%= s.monthofpassing_tenth %></td>
+				<td><%= s.board_tenth %></td>
+				
+				<td><%= s.mark_twelth %></td>
+				<td><%= s.yearofpassing_twelth %> <%= s.monthofpassing_twelth %></td>
+				<td><%= s.board_twelth %></td>
+				
+				<td><%= s.diploma_mark %></td>
+				<td><%= s.diploma_year %> <%= s.diploma_month %></td>
+				<td><%= s.coll_diploma %></td>
+				
+		  </tr>
+		<% end %>
+		</tbody>
+		
+		
+		</table>
+		
+	</div>
+	
+	
+</body>
+</html>
