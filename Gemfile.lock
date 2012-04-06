@@ -20,6 +20,8 @@ GEM
     plucky (0.4.4)
       mongo (~> 1.5)
     rack (1.4.1)
+    rack-flash (0.1.2)
+      rack
     rack-protection (1.2.0)
       rack
     ruby-ole (1.2.11.3)
@@ -37,5 +39,6 @@ PLATFORMS
 DEPENDENCIES
   mongo
   mongo_mapper
+  rack-flash
   sinatra
   spreadsheet

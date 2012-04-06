@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Student Info | SRM University</title>
+	<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.css" type="text/css" media="screen" title="no title" charset="utf-8">
+</head>
+<body>
+	<div class="container">
+		<br />
+		<div id="" class="hero-unit">
+			<div>
+				<h1>
+					Student Info 	
+				</h1>
+				<p>
+					Please enter your Registration Number to continue!
+				</p>
+			</div>
+			<br />
+			<% if session[:notice] %>
+			
+				<div class="alert alert-success">
+					<%= session[:notice] %>
+				</div>
+			
+			<% 
+			session[:notice] = nil
+			end %>
+			
+			<% if session[:error] %>
+			
+				<div class="alert alert-error">
+					<%= session[:error] %>
+				</div>
+			
+			<% 
+			session[:error] = nil
+			end %>
+		<div>
+			<form action="/" class="form-horizontal inline" method="post" accept-charset="utf-8">
+				<input name="student[reg_no]" value="" placeholder="Registration Number"  />
+	   			<input type="submit" value="Enter" class="btn primary">
+			</form>
+			</div>
+		</div>
+	</div>
+	
+</body>
+</html>

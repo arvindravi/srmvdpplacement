@@ -3,4 +3,5 @@ gem 'sinatra'
 gem 'mongo'
 gem 'mongo_mapper'
 gem 'spreadsheet'
+gem 'rack-flash'
 

@@ -4,34 +4,49 @@ require 'mongo'
 require 'mongo_mapper'
 require_relative 'models'
 require 'spreadsheet'
+#require 'rack-flash'
 
 uri =  "mongodb://heroku_app3666321:9nvpgjk8aglthg3qfm6j8nof0o@ds031777.mongolab.com:31777/heroku_app3666321"
 #uri = "mongodb://localhost:27017"
 MongoMapper.connection = Mongo::Connection.from_uri( uri )
 MongoMapper.database = 'heroku_app3666321'
 
+enable :sessions
 
 get '/' do
-  File.read("index.html")
+  erb :index
 end
 
 post '/' do 
-   m = /103|2|104\d\d[0-9]\d/.match(params[:student][:reg_no])
+   m = /10(3|2)104\d\d[0-9]\d/.match(params[:student][:reg_no])
     if m.nil?
+      session[:error] = "<strong>Invalid Registration Number</strong>"
       redirect '/'
+       
     else 
-      redirect '/home'
+      redirect '/ug'
     end
 end
 
-get '/home' do
-  File.read("home.html")
+get '/ug' do
+  erb :ug
 end
+
+get '/ug/:id' do |id|
+  s = Student.find_by_id(id)
+  erb :edit
+end
+
 
 post '/save' do 
   student = Student.new(params[:student])
   if student.save 
-    redirect '/list'
+    session[:notice] = "Your information was saved successfully! Thanks!<br />
+    <strong> All the best for your placement!</strong>"
+    redirect '/'
+  else
+    session[:error] = "There was an error processing your request.. Please contact the administrator immediately!"
+    redirect '/'
   end
 end
 
@@ -80,7 +95,15 @@ get '/filter/:mark' do |mark|
     
   end
   
-  book.write "test#{mark}.xls"
+  
+ begin
+    book.write "tmp/test#{mark}.xls"
+    rescue NoMethodError
+      "k"
+  end
+  
+  
+  
   #@students = Student.where(:mark_tenth => {:$gt => mark, :$lt => limi})
   
   #erb :filter
@@ -142,19 +165,19 @@ get '/make' do
     
   if(s.mark_tenth.to_i > 70 ) 
     
-    sheet1[i,0] = s.regno
-    sheet1[i,1] = s.name
+    sheet1[i,0] = s.regno.to_s
+    sheet1[i,1] = s.name.to_s
     sheet1[i, 2] = "BTech"
-    sheet1[i, 3] = s.branch
+    sheet1[i, 3] = s.branch.to_s
     sheet1[i, 4] = "SRM Vadapalani"
-    sheet1[i, 5] = s.gender
-    sheet1[i, 6] = "#{s.d}/#{s.m}/#{s.y}"
-    sheet1[i, 7] = s.mark_tenth
-    sheet1[i, 8] = "#{s.monthofpassing_tenth} #{s.yearofpassing_tenth}"
-    sheet1[i, 9] = s.board_tenth
-    sheet1[i, 10] = s.mark_twelth
-    sheet1[i, 11] = "#{ s.yearofpassing_twelth } #{ s.monthofpassing_twelth}"
-    sheet1[i, 12] = s.board_twelth
+    sheet1[i, 5] = s.gender.to_s
+    sheet1[i, 6] = "#{s.d.to_s}/#{s.m.to_s}/#{s.y.to_s}"
+    sheet1[i, 7] = s.mark_tenth.to_s
+    sheet1[i, 8] = "#{s.monthofpassing_tenth.to_s} #{s.yearofpassing_tenth.to_s}"
+    sheet1[i, 9] = s.board_tenth.to_s
+    sheet1[i, 10] = s.mark_twelth.to_s
+    sheet1[i, 11] = "#{ s.yearofpassing_twelth.to_s } #{ s.monthofpassing_twelth.to_s}"
+    sheet1[i, 12] = s.board_twelth.to_s
   
   end
     
@@ -163,7 +186,18 @@ get '/make' do
   end
   
   
-  book.write "testlist.xls"
+      if book.write 'tmp/ugstudentlist.xls' 
+        file = 'tmp/ugstudentlist.xls'
+        send_file(file, :disposition => 'attachment', :filename => File.basename(file))
+        
+      else
+         file = 'tmp/ugstudentlist.xls'
+        send_file(file, :disposition => 'attachment', :filename => File.basename(file))
+        
+      end
+      
+      
+  
   
 end
 
