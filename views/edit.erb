@@ -3,8 +3,8 @@
 <head>
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 	<title>Student Info</title>
-	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" type="text/css" media="screen" title="no title" charset="utf-8">
-	<script type="text/javascript" charset="utf-8" src="assets/bootstrap/js/jquery.js"></script>
+	<link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.css" type="text/css" media="screen" title="no title" charset="utf-8">
+	<script type="text/javascript" charset="utf-8" src="/assets/bootstrap/js/jquery.js"></script>
 	<script type="text/javascript" charset="utf-8">
 		function toggleStatus() {
 		    if ($('#tE').is(':checked')) {
@@ -28,7 +28,8 @@
 		</div>
 		<br />
 		<div class="row">
-			<form class="form-horizontal" action="/save" method="post">
+			<form class="form-horizontal" action="/ug/<%= @s.id %>/save" method="post">
+				<input type="hidden" name="_method" value="put" />
 			        <fieldset>
 			          
 			
@@ -41,7 +42,7 @@
 								<div class="control-group">
 						            <label class="control-label">Student Name</label>
 						            <div class="controls docs-input-sizes">
-						              <input class="input" type="text"  name="student[name]" value="<%= s.name %>">
+						              <input class="input" type="text"  name="student[name]" value="<%= @s.name %>">
 
 						            </div>
 						          </div>
@@ -49,7 +50,7 @@
 								<div class="control-group">
 						            <label class="control-label">Registration Number</label>
 						            <div class="controls docs-input-sizes">
-						              <input class="input" type="text"  name="student[regno]" value="<%= s.regno %>">
+						              <input class="input" type="text"  name="student[regno]" value="<%= @s.regno %>">
 
 						            </div>
 						          </div>
@@ -59,7 +60,7 @@
 									            <label class="control-label">Branch</label>
 									            <div class="controls">
 									              <label class="radio">
-												<% if s.branch == "cse" %>
+												<% if @s.branch == "cse" %>
 									                <input type="radio" name="student[branch]" id="optionsRadios1" value="cse" checked>
 									                CSE
 												<% else %>
@@ -68,7 +69,7 @@
 													<% end %>
 									              </label>
 									              <label class="radio">
-													<% if s.branch == "ece" %>
+													<% if @s.branch == "ece" %>
 										                <input type="radio" name="student[branch]" id="optionsRadios2" value="ece" checked>
 										                ECE
 													<% else %>
@@ -78,7 +79,7 @@
 									                
 									              </label>
 												<label class="radio">
-									                <% if s.branch == "mech" %>
+									                <% if @s.branch == "mech" %>
 										                <input type="radio" name="student[branch]" id="optionsRadios2" value="mech" checked>
 										                MECH
 													<% else %>
@@ -106,11 +107,17 @@
 											<% 
 													months = ["January", "February", "March", "April", "May", "June", "August", "September", "October", "November", "December"]
 													months.each do |m|
+														
+														
 											%>
+											
+													<% if m == @s.m %>
+														<option value="<%=m %>" selected="selected"><%=m%></option>
+														<% else %>
+											
 													<option value="<%=m %>"><%=m%></option>
-											<%
-													end
-											%>
+													<% end %>
+											<% end %>
 											</select>
 
 											<select class="input-small" name="student[d]">
@@ -122,7 +129,13 @@
 														
 												%>
 												
+													<% if day == @s.d %>
+														<option value="<%=day%>" selected="selected"><%=day%></option>
+														<% else %>
+											
 													<option value="<%=day%>"><%=day%></option>
+													<% end %>
+													
 												
 												<%
 													day = day + 1
@@ -138,7 +151,15 @@
 													30.times do
 												%>
 												
+													<% if year == @s.y %>
+													<option value="<%=year%>" selected="selected"><%=year%></option>
+														<% else %>
+											
 													<option value="<%=year%>"><%=year%></option>
+													<% end %>
+													
+												
+													
 													
 												<%
 													year = year + 1
@@ -155,11 +176,12 @@
 									            <label class="control-label">Gender</label>
 									            <div class="controls">
 									              <label class="radio">
-									                <input type="radio" name="student[gender]" id="optionsRadios1" value="Male" checked>
+											
+									                <input type="radio" name="student[gender]" id="optionsRadios1" value="Male" <% if @s.gender == "Male" %> checked <% end %>>
 									                Male
 									              </label>
 									              <label class="radio">
-									                <input type="radio" name="student[gender]" id="optionsRadios2" value="Female">
+									                <input type="radio" name="student[gender]" id="optionsRadios2" value="Female" <% if @s.gender == "Female" %> checked <% end %>>
 									                Female
 									              </label>
 									            </div>
@@ -167,62 +189,46 @@
 
 
 
-											<div class="control-group">
-											            <label class="control-label" for="dob">Year: </label>
-											            <div class="controls">
+												<div class="control-group">
+												            <label class="control-label" for="dob">Year: </label>
+												            <div class="controls">
 
 
-															<select class="input-small" name="student[a_y1]">
-																<option> - From - </option>
-																<%
-																	year = 2008
-
-																	10.times do
-																		
-																		if s.a_y1 == year
-																%>
-
-																	
-																	
-																		<option value="<%=year%>"  selected="selected"><%=year%></option>
-																		
-
-																<%
-																else 
-																	%>
-																		<option value="<%=year%>"><%=year%></option>
-																	<%
-																	
-																	year = year + 1
-																end
-																%>
-
-															</select> - 		<select class="input-small" name="student[a_y2]">
-																	<option> - To - </option>
+																<select class="input-small" name="student[a_y1]">
+																	<option> - From - </option>
 																	<%
 																		year = 2008
 
 																		10.times do
-																			if s.a_y2 == year
 																	%>
 
-
-
-																			<option value="<%=year%>"  selected="selected"><%=year%></option>
-
+																		<option value="<%=year%>"><%=year%></option>
 
 																	<%
-																	else 
-																		%>
-																			<option value="<%=year%>"><%=year%></option>
-																		<%
 																		year = year + 1
 																	end
 																	%>
 
-																</select>
-											            </div>
-											          </div>
+																</select> - 		<select class="input-small" name="student[a_y2]">
+																		<option> - To - </option>
+																		<%
+																			year = 2008
+
+																			10.times do
+																		%>
+
+																			<option value="<%=year%>"><%=year%></option>
+
+																		<%
+																			year = year + 1
+																		end
+																		%>
+
+																	</select>
+												            </div>
+												          </div>
+
+											
 							
 							
 							
@@ -239,7 +245,7 @@
 							<div class="control-group">
 					            <label class="control-label">Board</label>
 					            <div class="controls docs-input-sizes">
-					              <input class="input" type="text"  name="student[board_tenth]">
+					              <input class="input" type="text"  name="student[board_tenth]" value="<%= @s.board_tenth %>">
 
 					            </div>
 					          </div>
@@ -248,7 +254,7 @@
 							<div class="control-group">
 					            <label class="control-label">Marks</label>
 					            <div class="controls docs-input-sizes">
-					              <input class="input" type="text"  name="student[mark_tenth]">
+					              <input class="input" type="text"  name="student[mark_tenth]" value="<%= @s.mark_tenth %>">
 
 					            </div>
 					          </div>
@@ -257,7 +263,7 @@
 							<div class="control-group">
 					            <label class="control-label">Month Of Passing</label>
 					            <div class="controls docs-input-sizes">
-					              <input class="input" type="text"  name="student[monthofpassing_tenth]">
+					              <input class="input" type="text"  name="student[monthofpassing_tenth]" value="<%= @s.monthofpassing_tenth %>">
 
 					            </div>
 					          </div>
@@ -266,7 +272,7 @@
 							<div class="control-group">
 					            <label class="control-label">Year Of Passing</label>
 					            <div class="controls docs-input-sizes">
-					              <input class="input" type="text"  name="student[yearofpassing_tenth]">
+					              <input class="input" type="text"  name="student[yearofpassing_tenth]" value="<%= @s.yearofpassing_tenth %>">
 
 					            </div>
 					          </div>
@@ -281,14 +287,14 @@
 							<div class="control-group">
 					            <label class="control-label">Board</label>
 					            <div class="controls docs-input-sizes">
-					              <input class="input" type="text"  name="student[board_twelth]">
+					              <input class="input" type="text"  name="student[board_twelth]" value="<%= @s.board_twelth %>">
 
 					            </div>
 					          </div>
 							<div class="control-group">
 					            <label class="control-label">Marks</label>
 					            <div class="controls docs-input-sizes">
-					              <input class="input" type="text"  name="student[mark_twelth]">
+					              <input class="input" type="text"  name="student[mark_twelth]" value="<%= @s.mark_twelth %>">
 
 					            </div>
 					          </div>
@@ -297,7 +303,7 @@
 							<div class="control-group">
 					            <label class="control-label">Month Of Passing</label>
 					            <div class="controls docs-input-sizes">
-					              <input class="input" type="text"  name="student[monthofpassing_twelth]">
+					              <input class="input" type="text"  name="student[monthofpassing_twelth]" value="<%= @s.monthofpassing_twelth %>">
 
 					            </div>
 					          </div>
@@ -306,7 +312,7 @@
 							<div class="control-group">
 					            <label class="control-label">Year Of Passing</label>
 					            <div class="controls docs-input-sizes">
-					              <input class="input" type="text"  name="student[yearofpassing_twelth]">
+					              <input class="input" type="text"  name="student[yearofpassing_twelth]" value="<%= @s.yearofpassing_twelth %>">
 
 					            </div>
 					          </div>
@@ -325,14 +331,14 @@
 								<div class="control-group">
 						            <label class="control-label">College</label>
 						            <div class="controls docs-input-sizes">
-						              <input class="input" type="text"  name="student[coll_diploma]">
+						              <input class="input" type="text"  name="student[coll_diploma]" value="<%= @s.coll_diploma %>">
 
 						            </div>
 						          </div>
 								<div class="control-group">
 						            <label class="control-label">Marks</label>
 						            <div class="controls docs-input-sizes">
-						              <input class="input" type="text"  name="student[diploma_mark]">
+						              <input class="input" type="text"  name="student[diploma_mark]" value="<%= @s.diploma_mark %>">
 
 						            </div>
 						          </div>
@@ -341,7 +347,7 @@
 								<div class="control-group">
 						            <label class="control-label">Month Of Passing</label>
 						            <div class="controls docs-input-sizes">
-						              <input class="input" type="text"  name="student[diploma_month]">
+						              <input class="input" type="text"  name="student[diploma_month]" value="<%= @s.diploma_month %>">
 
 						            </div>
 						          </div>
@@ -354,7 +360,7 @@
 							<div class="control-group">
 					            <label class="control-label">Year Of Passing</label>
 					            <div class="controls docs-input-sizes">
-					              <input class="input" type="text"  name="student[diploma_year]">
+					              <input class="input" type="text"  name="student[diploma_year]" value="<%= @s.diploma_year %>">
 
 					            </div>
 					          </div>
@@ -363,7 +369,7 @@
 							<div class="control-group">
 					            <label class="control-label">Break of study if any.. No. of years: </label>
 					            <div class="controls docs-input-sizes">
-					              <input class="input" type="text"  name="student[break_y]">
+					              <input class="input" type="text"  name="student[break_y]" value="<%= @s.break_y %>">
 
 					            </div>
 					          </div>
@@ -371,7 +377,7 @@
 									<div class="control-group">
 							            <label class="control-label">Break of study if any.. reason: </label>
 							            <div class="controls docs-input-sizes">
-							              <textarea name="student[break_r]" rows="8" cols="40"></textarea>
+							              <textarea name="student[break_r]" rows="8" cols="40" value="<%= @s.break_r %>"></textarea>
 
 							            </div>
 							          </div>
@@ -410,43 +416,43 @@
 							<tbody>
 								<tr>
 									<td>Semester 1</td>
-									<td><input type="text" name="student[sem1_gpa]" value="" class="input-small"></td>
-									<td><input type="text" name="student[sem1_a]" value="" class="input-small"></td>
-									<td><input type="text" name="student[sem1_sa]" value="" class="input-small"></td>
+									<td><input type="text" name="student[sem1_gpa]" value="" class="input-small" value="<%= @s.sem1_gpa %>"></td>
+									<td><input type="text" name="student[sem1_a]" value="" class="input-small" value="<%= @s.sem1_a %>"></td>
+									<td><input type="text" name="student[sem1_sa]" value="" class="input-small" value="<%= @s.sem1_sa %>"></td>
 									<td>Semester 5</td>
-									<td><input type="text" name="student[sem5_gpa]" value="" class="input-small"></td>
-									<td><input type="text" name="student[sem5_a]" value="" class="input-small"></td>
-									<td><input type="text" name="student[sem5_sa]" value="" class="input-small"></td>
+									<td><input type="text" name="student[sem5_gpa]" value="" class="input-small" value="<%= @s.sem5_gpa %>"></td>
+									<td><input type="text" name="student[sem5_a]" value="" class="input-small" value="<%= @s.sem5_a %>"></td>
+									<td><input type="text" name="student[sem5_sa]" value="" class="input-small" value="<%= @s.sem5_sa %>"></td>
 								</tr>
 								<tr>
 									<td>Semester 2</td>
-									<td><input type="text" name="student[sem2_gpa]" value="" class="input-small"></td>
-									<td><input type="text" name="student[sem2_a]" value="" class="input-small"></td>
-									<td><input type="text" name="student[sem2_sa]" value="" class="input-small"></td>
+									<td><input type="text" name="student[sem2_gpa]" value="" class="input-small" value="<%= @s.sem2_gpa %>"></td>
+									<td><input type="text" name="student[sem2_a]" value="" class="input-small" value="<%= @s.sem2_a %>"></td>
+									<td><input type="text" name="student[sem2_sa]" value="" class="input-small" value="<%= @s.sem2_sa %>"></td>
 									<td>Semester 6</td>
-									<td><input type="text" name="student[sem6_gpa]" value="" class="input-small"></td>
-									<td><input type="text" name="student[sem6_a]" value="" class="input-small"></td>
-									<td><input type="text" name="student[sem6_sa]" value="" class="input-small"></td>
+									<td><input type="text" name="student[sem6_gpa]" value="" class="input-small" value="<%= @s.sem6_gpa %>"></td>
+									<td><input type="text" name="student[sem6_a]" value="" class="input-small" value="<%= @s.sem6_a %>"></td>
+									<td><input type="text" name="student[sem6_sa]" value="" class="input-small" value="<%= @s.sem6_sa %>"></td>
 								</tr>
 								<tr>
 									<td>Semester 3</td>
-									<td><input type="text" name="student[sem3_gpa]" value="" class="input-small"></td>
-									<td><input type="text" name="student[sem3_a]" value="" class="input-small"></td>
-									<td><input type="text" name="student[sem3_sa]" value="" class="input-small"></td>
+									<td><input type="text" name="student[sem3_gpa]" value="" class="input-small" value="<%= @s.sem3_gpa %>"></td>
+									<td><input type="text" name="student[sem3_a]" value="" class="input-small" value="<%= @s.sem3_a %>"></td>
+									<td><input type="text" name="student[sem3_sa]" value="" class="input-small" value="<%= @s.sem3_sa %>"></td>
 									<td>Semester 7</td>
-									<td><input type="text" name="student[sem7_gpa]" value="" class="input-small"></td>
-									<td><input type="text" name="student[sem7_a]" value="" class="input-small"></td>
-									<td><input type="text" name="student[sem7_sa]" value="" class="input-small"></td>
+									<td><input type="text" name="student[sem7_gpa]" value="" class="input-small" value="<%= @s.sem7_gpa %>"></td>
+									<td><input type="text" name="student[sem7_a]" value="" class="input-small" value="<%= @s.sem7_a %>"></td>
+									<td><input type="text" name="student[sem7_sa]" value="" class="input-small" value="<%= @s.sem7_sa %>"></td>
 								</tr>
 								<tr>
 									<td>Semester 4</td>
-									<td><input type="text" name="student[sem4_gpa]" value="" class="input-small"></td>
-									<td><input type="text" name="student[sem4_a]" value="" class="input-small"></td>
-									<td><input type="text" name="student[sem4_sa]" value="" class="input-small"></td>
+									<td><input type="text" name="student[sem4_gpa]" value="" class="input-small" value="<%= @s.sem4_gpa %>"></td>
+									<td><input type="text" name="student[sem4_a]" value="" class="input-small" value="<%= @s.sem4_a %>"></td>
+									<td><input type="text" name="student[sem4_sa]" value="" class="input-small" value="<%= @s.sem4_sa %>"></td>
 									<td>Semester 8</td>
-									<td><input type="text" name="student[sem8_gpa]" value="" class="input-small"></td>
-									<td><input type="text" name="student[sem8_a]" value="" class="input-small"></td>
-									<td><input type="text" name="student[sem8_sa]" value="" class="input-small"></td>
+									<td><input type="text" name="student[sem8_gpa]" value="" class="input-small" value="<%= @s.sem8_gpa %>"></td>
+									<td><input type="text" name="student[sem8_a]" value="" class="input-small" value="<%= @s.sem8_a %>"></td>
+									<td><input type="text" name="student[sem8_sa]" value="" class="input-small" value="<%= @s.sem8_sa %>"></td>
 								</tr>
 							</tbody>
 
@@ -471,7 +477,7 @@
 									<div class="control-group">
 							            <label class="control-label">Overall CGPA</label>
 							            <div class="controls docs-input-sizes">
-							              <input class="input-small" type="text"  name="student[cgpa]">
+							              <input class="input-small" type="text"  name="student[cgpa]" value="<%= @s.cgpa %>">
 
 							            </div>
 							          </div>
@@ -479,7 +485,7 @@
 									<div class="control-group">
 							            <label class="control-label">Total Arrears</label>
 							            <div class="controls docs-input-sizes">
-							              <input class="input-small" type="text"  name="student[tot_a]">
+							              <input class="input-small" type="text"  name="student[tot_a]" value="<%= @s.tot_a %>">
 
 							            </div>
 							          </div>
@@ -488,83 +494,7 @@
 										
 										
 										
-										<div id="pg_d">
-											<h3>PG Semester Details</h3>
-											<table class="table table-striped">
-												<thead>
-													<tr>
-														<th>Semester</th>
-														<th>GPA</th>
-														<th>History Of Arrears</th>
-														<th>Standing Arrears</th>
-														<th>Semester</th>
-														<th>GPA</th>
-														<th>History Of Arrears</th>
-														<th>Standing Arrears</th>
-
-													</tr>
-												</thead>
-
-												<tbody>
-													<tr>
-														<td>Semester 1</td>
-														<td><input type="text" name="student[sem1_pg_gpa]" value="" class="input-small"></td>
-														<td><input type="text" name="student[sem1_pg_a]" value="" class="input-small"></td>
-														<td><input type="text" name="student[sem1_pg_sa]" value="" class="input-small"></td>
-														<td>Semester 3</td>
-														<td><input type="text" name="student[sem5_pg_gpa]" value="" class="input-small"></td>
-														<td><input type="text" name="student[sem5_pg_a]" value="" class="input-small"></td>
-														<td><input type="text" name="student[sem5_pg_sa]" value="" class="input-small"></td>
-													</tr>
-													<tr>
-														<td>Semester 2</td>
-														<td><input type="text" name="student[sem2_pg_gpa]" value="" class="input-small"></td>
-														<td><input type="text" name="student[sem2_pg_a]" value="" class="input-small"></td>
-														<td><input type="text" name="student[sem2_pg_sa]" value="" class="input-small"></td>
-														<td>Semester 4</td>
-														<td><input type="text" name="student[sem6_pg_gpa]" value="" class="input-small"></td>
-														<td><input type="text" name="student[sem6_pg_a]" value="" class="input-small"></td>
-														<td><input type="text" name="student[sem6_pg_sa]" value="" class="input-small"></td>
-													</tr>
-													
-												</tbody>
-
-												</table>
-
-
-												 <div class="control-group">
-												            <label class="control-label">At the end of the course: </label>
-												            <div class="controls">
-												              <label class="radio">
-												                <input type="radio" name="student[eopgc]" id="optionsRadios1" value="Pass" checked>
-												                Passed
-												              </label>
-												              <label class="radio">
-												                <input type="radio" name="student[eopgc]" id="optionsRadios2" value="Fail">
-												                Failed
-												              </label>
-												            </div>
-												          </div>
-
-
-														<div class="control-group">
-												            <label class="control-label">Overall CGPA</label>
-												            <div class="controls docs-input-sizes">
-												              <input class="input-small" type="text"  name="student[pg_cgpa]">
-
-												            </div>
-												          </div>
-
-														<div class="control-group">
-												            <label class="control-label">Total Arrears</label>
-												            <div class="controls docs-input-sizes">
-												              <input class="input-small" type="text"  name="student[pg_tot_a]">
-
-												            </div>
-												          </div>
-												
-												<br /><hr />
-										</div>
+										
 										
 											
 
@@ -584,20 +514,20 @@
 											<tbody>
 												<tr>
 
-													<td><input type="text" name="student[imp1_n]" value="" class="input"></td>
-													<td>From <input type="text" name="student[imp1_d_f]" value="" class="input-small">To<input type="text" name="student[imp1_d_t]" value="" class="input-small"></td>
-													<td><textarea name="student[imp1_w]" rows="4" cols="40"></textarea>
+													<td><input type="text" name="student[imp1_n]" value="" class="input" value="<%= @s.imp1_n %>"></td>
+													<td>From <input type="text" name="student[imp1_d_f]" value="" class="input-small" value="<%= @s.imp1_d_f %>">To<input type="text" name="student[imp1_d_t]" value="" class="input-small"></td>
+													<td><textarea name="student[imp1_w]" rows="4" cols="40" value="<%= @s.imp1_w %>"></textarea>
 														</td>
-													<td><input type="text" name="student[imp1_dd]" value="" class="input-small"></td>
+													<td><input type="text" name="student[imp1_dd]" value="" class="input-small" value="<%= @s.imp1_dd %>"></td>
 
 												</tr>
 
 												<tr>
 
-													<td><input type="text" name="student[imp2_n]" value="" class="input"></td>
-													<td>From <input type="text" name="student[imp1_d_f]" value="" class="input-small">To<input type="text" name="student[imp1_d_t]" value="" class="input-small"></td>
+													<td><input type="text" name="student[imp2_n]" value="" class="input" value="<%= @s.imp2_n %>"></td>
+													<td>From <input type="text" name="student[imp1_d_f]" value="" class="input-small" value="<%= @s.imp1_d_f %>">To<input type="text" name="student[imp1_d_t]" value="" class="input-small"></td>
 													<td><textarea name="student[imp2_w]" rows="4" cols="40"></textarea></td>
-													<td><input type="text" name="student[imp2_dd]" value="" class="input-small"></td>
+													<td><input type="text" name="student[imp2_dd]" value="" class="input-small" value="<%= @s.imp2_dd %>"></td>
 
 												</tr>
 
@@ -605,9 +535,9 @@
 												<tr>
 
 													<td><input type="text" name="student[imp3_n]" value="" class="input"></td>
-													<td>From <input type="text" name="student[imp1_d_f]" value="" class="input-small">To<input type="text" name="student[imp1_d_t]" value="" class="input-small"></td>
-													<td><textarea name="student[imp3_w]" rows="4" cols="40"></textarea></td>
-													<td><input type="text" name="student[imp3_dd]" value="" class="input-small"></td>
+													<td>From <input type="text" name="student[imp1_d_f]" value="" class="input-small" value="<%= @s.imp1_d_f %>">To<input type="text" name="student[imp1_d_t]" value="" class="input-small"></td>
+													<td><textarea name="student[imp3_w]" rows="4" cols="40" value="<%= @s.imp3_w %>"></textarea></td>
+													<td><input type="text" name="student[imp3_dd]" value="" class="input-small" value="<%= @s.imp3_dd %>"></td>
 
 												</tr>
 
@@ -623,7 +553,7 @@
 										<div class="control-group">
 								            <label class="control-label">Electives in current course</label>
 								            <div class="controls docs-input-sizes">
-								              <textarea name="student[electives]" style="width:450px;height:100px;"></textarea>
+								              <textarea name="student[electives]" style="width:450px;height:100px;" value="<%= @s.electives %>"></textarea>
 
 								            </div>
 								          </div>
@@ -634,7 +564,7 @@
 										<div class="control-group">
 								            <label class="control-label">Mother Tongue</label>
 								            <div class="controls docs-input-sizes">
-								              <input class="input" type="text"  name="student[m_t]">
+								              <input class="input" type="text"  name="student[m_t]" value="<%= @s.m_t %>">
 
 								            </div>
 								          </div>
@@ -642,7 +572,7 @@
 										<div class="control-group">
 								            <label class="control-label">Languages to speak</label>
 								            <div class="controls docs-input-sizes">
-								              <textarea name="student[lang_speak]" style="width:450px;height:100px;"></textarea>
+								              <textarea name="student[lang_speak]" style="width:450px;height:100px;" value="<%= @s.lang_speak %>"></textarea>
 
 								            </div>
 								          </div>
@@ -651,7 +581,7 @@
 										<div class="control-group">
 								            <label class="control-label">Languages to read</label>
 								            <div class="controls docs-input-sizes">
-								              <textarea name="student[lang_read]" style="width:450px;height:100px;"></textarea>
+								              <textarea name="student[lang_read]" style="width:450px;height:100px;" value="<%= @s.lang_read %>"></textarea>
 
 								            </div>
 								          </div>
@@ -660,7 +590,7 @@
 										<div class="control-group">
 								            <label class="control-label">Languages to understand</label>
 								            <div class="controls docs-input-sizes">
-								              <textarea name="student[lang_und]" style="width:450px;height:100px;"></textarea>
+								              <textarea name="student[lang_und]" style="width:450px;height:100px;" value="<%= @s.lang_und %>"></textarea>
 
 								            </div>
 								          </div>
@@ -669,7 +599,7 @@
 										<div class="control-group">
 								            <label class="control-label">Height</label>
 								            <div class="controls docs-input-sizes">
-								              <input class="input" type="text"  name="student[height]">
+								              <input class="input" type="text"  name="student[height]" value="<%= @s.height %>">
 
 								            </div>
 								          </div>
@@ -678,7 +608,7 @@
 										<div class="control-group">
 								            <label class="control-label">Weight</label>
 								            <div class="controls docs-input-sizes">
-								              <input class="input" type="text"  name="student[weight]">
+								              <input class="input" type="text"  name="student[weight]" value="<%= @s.weight %>">
 
 								            </div>
 								          </div>
@@ -686,7 +616,7 @@
 										<div class="control-group">
 								            <label class="control-label">Nationality</label>
 								            <div class="controls docs-input-sizes">
-								              <input class="input" type="text"  name="student[natl]">
+								              <input class="input" type="text"  name="student[natl]" value="<%= @s.natl %>">
 
 								            </div>
 								          </div>
@@ -694,7 +624,7 @@
 										<div class="control-group">
 								            <label class="control-label">Passport Number</label>
 								            <div class="controls docs-input-sizes">
-								              <input class="input" type="text"  name="student[ppn]">
+								              <input class="input" type="text"  name="student[ppn]" value="<%= @s.ppn %>">
 
 								            </div>
 								          </div>
@@ -702,7 +632,7 @@
 										<div class="control-group">
 								            <label class="control-label">Valid Up to: </label>
 								            <div class="controls docs-input-sizes">
-								              <input class="input" type="text"  name="student[pp_v]">
+								              <input class="input" type="text"  name="student[pp_v]" value="<%= @s.pp_v %>">
 
 								            </div>
 								          </div>
@@ -713,33 +643,35 @@
 										<div class="control-group">
 								            <label class="control-label">Address for communication</label>
 								            <div class="controls docs-input-sizes">
-								              <textarea name="student[address]" style="width:450px;height:100px;"></textarea>
+								              <textarea name="student[address]" style="width:450px;height:100px;" value="<%= @s.address %>"></textarea>
 
 								            </div>
 								          </div>
+								
+											<div class="control-group">
+									            <label class="control-label">Phone No. (L)</label>
+									            <div class="controls docs-input-sizes">
+									              <input class="input" type="text"  name="student[ph1]" value="<%= @s.ph1 %>">
+
+									            </div>
+									          </div>
 
 										<div class="control-group">
 								            <label class="control-label">Permanent Address</label>
 								            <div class="controls docs-input-sizes">
-								              <textarea name="student[add_p]" style="width:450px;height:100px;"></textarea>
+								              <textarea name="student[add_p]" style="width:450px;height:100px;" value="<%= @s.add_p %>"></textarea>
 
 								            </div>
 								          </div>
 
 
-										<div class="control-group">
-								            <label class="control-label">Phone No. (L)</label>
-								            <div class="controls docs-input-sizes">
-								              <input class="input" type="text"  name="student[ph1]">
-
-								            </div>
-								          </div>
+									
 
 
 										<div class="control-group">
 								            <label class="control-label">Phone No. (L)</label>
 								            <div class="controls docs-input-sizes">
-								              <input class="input" type="text"  name="student[ph2]">
+								              <input class="input" type="text"  name="student[ph2]" value="<%= @s.ph2 %>">
 
 								            </div>
 								          </div>
@@ -747,7 +679,7 @@
 										<div class="control-group">
 								            <label class="control-label">Mobile No.</label>
 								            <div class="controls docs-input-sizes">
-								              <input class="input" type="text"  name="student[mob]">
+								              <input class="input" type="text"  name="student[mob]" value="<%= @s.mob %>">
 
 								            </div>
 								          </div>
@@ -755,7 +687,7 @@
 										<div class="control-group">
 								            <label class="control-label">Email Id</label>
 								            <div class="controls docs-input-sizes">
-								              <input class="input" type="text"  name="student[email]">
+								              <input class="input" type="text"  name="student[email]" value="<%= @s.email %>">
 
 								            </div>
 								          </div>
@@ -765,7 +697,7 @@
 									<div class="control-group">
 							            <label class="control-label">Father's name: </label>
 							            <div class="controls docs-input-sizes">
-							              <input class="input" type="text"  name="student[father_n]">
+							              <input class="input" type="text"  name="student[father_n]" value="<%= @s.father_n %>">
 
 							            </div>
 							          </div>
@@ -773,7 +705,7 @@
 									<div class="control-group">
 							            <label class="control-label">Occupation</label>
 							            <div class="controls docs-input-sizes">
-							              <input class="input" type="text"  name="student[father_o]">
+							              <input class="input" type="text"  name="student[father_o]" value="<%= @s.father_o %>">
 
 							            </div>
 							          </div>
@@ -781,7 +713,7 @@
 									<div class="control-group">
 							            <label class="control-label">Designation</label>
 							            <div class="controls docs-input-sizes">
-							              <input class="input" type="text"  name="student[father_d]">
+							              <input class="input" type="text"  name="student[father_d]" value="<%= @s.father_d %>">
 
 							            </div>
 							          </div>
@@ -789,7 +721,7 @@
 										<div class="control-group">
 								            <label class="control-label">Name and Address Of Organization</label>
 								            <div class="controls docs-input-sizes">
-								              <textarea name="student[father_org]" style="width:450px;height:100px;"></textarea>
+								              <textarea name="student[father_org]" style="width:450px;height:100px;" value="<%= @s.father_org %>"></textarea>
 
 								            </div>
 								          </div>
@@ -797,7 +729,7 @@
 										<div class="control-group">
 								            <label class="control-label">Phone No. With STD Code : (L)</label>
 								            <div class="controls docs-input-sizes">
-								              <input class="input" type="text"  name="student[father_ph]">
+								              <input class="input" type="text"  name="student[father_ph]" value="<%= @s.father_ph %>">
 
 								            </div>
 								          </div>
@@ -805,7 +737,7 @@
 										<div class="control-group">
 								            <label class="control-label">Phone No. With STD Code : (M)</label>
 								            <div class="controls docs-input-sizes">
-								              <input class="input" type="text"  name="student[father_mob]">
+								              <input class="input" type="text"  name="student[father_mob]" value="<%= @s.father_mob %>">
 
 								            </div>
 								          </div>
@@ -813,7 +745,7 @@
 										<div class="control-group">
 								            <label class="control-label">Father's Email Id: </label>
 								            <div class="controls docs-input-sizes">
-								              <input class="input" type="text"  name="student[father_email]">
+								              <input class="input" type="text"  name="student[father_email]" value="<%= @s.father_email %>">
 
 								            </div>
 								          </div>
@@ -822,7 +754,7 @@
 										<div class="control-group">
 								            <label class="control-label">Mother's Name</label>
 								            <div class="controls docs-input-sizes">
-								              <input class="input" type="text"  name="student[mother_n]">
+								              <input class="input" type="text"  name="student[mother_n]" value="<%= @s.mother_n %>">
 
 								            </div>
 								          </div>
@@ -830,7 +762,7 @@
 										<div class="control-group">
 								            <label class="control-label">Occupation</label>
 								            <div class="controls docs-input-sizes">
-								              <input class="input" type="text"  name="student[mother_o]">
+								              <input class="input" type="text"  name="student[mother_o]" value="<%= @s.mother_o %>">
 
 								            </div>
 								          </div>
@@ -838,7 +770,7 @@
 										<div class="control-group">
 								            <label class="control-label">Designation</label>
 								            <div class="controls docs-input-sizes">
-								              <input class="input" type="text"  name="student[mother_d]">
+								              <input class="input" type="text"  name="student[mother_d]" value="<%= @s.mother_d %>">
 
 								            </div>
 								          </div>
@@ -846,7 +778,7 @@
 											<div class="control-group">
 									            <label class="control-label">Name and Address Of Organization</label>
 									            <div class="controls docs-input-sizes">
-									              <textarea name="student[mother_org]" style="width:450px;height:100px;"></textarea>
+									              <textarea name="student[mother_org]" style="width:450px;height:100px;" value="<%= @s.mother_org %>"></textarea>
 
 									            </div>
 									          </div>
@@ -855,7 +787,7 @@
 											<div class="control-group">
 									            <label class="control-label">Phone No. With STD Code : (L)</label>
 									            <div class="controls docs-input-sizes">
-									              <input class="input" type="text"  name="student[mother_ph]">
+									              <input class="input" type="text"  name="student[mother_ph]" value="<%= @s.mother_ph %>">
 
 									            </div>
 									          </div>
@@ -863,7 +795,7 @@
 											<div class="control-group">
 									            <label class="control-label">Phone No. With STD Code : (M)</label>
 									            <div class="controls docs-input-sizes">
-									              <input class="input" type="text"  name="student[mother_mob]">
+									              <input class="input" type="text"  name="student[mother_mob]" value="<%= @s.mother_mob %>">
 
 									            </div>
 									          </div>
@@ -871,7 +803,7 @@
 											<div class="control-group">
 									            <label class="control-label">Mother's Email Id: </label>
 									            <div class="controls docs-input-sizes">
-									              <input class="input" type="text"  name="student[mother_email]">
+									              <input class="input" type="text"  name="student[mother_email]" value="<%= @s.mother_email %>">
 
 									            </div>
 									          </div>
@@ -880,7 +812,7 @@
 											<div class="control-group">
 									            <label class="control-label">Student Activities (description in words, should have proof for claim)</label>
 									            <div class="controls docs-input-sizes">
-									              <textarea name="student[activities]" style="width:450px;height:100px;"></textarea>
+									              <textarea name="student[activities]" style="width:450px;height:100px;" value="<%= @s.activities %>"></textarea>
 
 									            </div>
 									          </div>
@@ -922,7 +854,7 @@
 															<div class="control-group">
 													            <label class="control-label">If No, Reason:</label>
 													            <div class="controls docs-input-sizes">
-													              <textarea name="student[no_res]" rows="4" cols="70"></textarea>
+													              <textarea name="student[no_res]" rows="4" cols="70" value="<%= @s.no_res %>"></textarea>
 
 													            </div>
 													          </div>
