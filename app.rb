@@ -17,22 +17,37 @@ get '/' do
   erb :index
 end
 
+
 post '/' do 
-   m = /10(3|2)104\d\d[0-9]\d/.match(params[:student][:regno])
-    if m.nil?
-      session[:error] = "<strong>Invalid Registration Number</strong>"
-      redirect '/'
-       
-    else 
-      
-      student = Student.find_by_regno(params[:student][:regno])
-      
-      if student 
-        redirect "/ug/edit/#{student.id}"
-      else
-        redirect "/ug/#{params[:student][:regno]}"
+  
+  
+  @app = App.find_by_aident("stf0001")
+  
+  if @app.open == 1 
+    m = /10(2|3|4)09(4|1)0\d\d\d/.match(params[:student][:regno])
+      if m.nil?
+        session[:error] = "<strong>Invalid Registration Number!</strong>"
+        redirect '/'
+
+      else 
+
+        student = Student.find_by_regno(params[:student][:regno])
+
+        if student 
+          redirect "/ug/edit/#{student.id}"
+        else
+          redirect "/ug/#{params[:student][:regno]}"
+        end
       end
-    end
+      
+    else
+      
+      erb :closed
+  end
+  
+   
+    
+    
 end
 
 get '/ug/:regno' do |r|
