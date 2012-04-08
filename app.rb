@@ -10,10 +10,12 @@ require 'will_paginate-bootstrap'
 require 'mongomapper_search'
 require_relative 'models'
 
-uri =  "mongodb://heroku_app3666321:9nvpgjk8aglthg3qfm6j8nof0o@ds031777.mongolab.com:31777/heroku_app3666321"
+uri = "mongodb://heroku_app3705114:80e932ba937qf19bk9d0t65hf8@ds031747.mongolab.com:31747/heroku_app3705114"
+#uri =  "mongodb://heroku_app3666321:9nvpgjk8aglthg3qfm6j8nof0o@ds031777.mongolab.com:31777/heroku_app3666321"
 #uri = "mongodb://localhost:27017"
 MongoMapper.connection = Mongo::Connection.from_uri( uri )
-MongoMapper.database = 'heroku_app3666321'
+MongoMapper.database = 'heroku_app3705114'
+#MongoMapper.database = 'heroku_app3666321'
 
 enable :sessions
 
@@ -54,8 +56,8 @@ post '/' do
 end
 
 get '/ug/readonly/:id' do |sid|
-  student = Student.find_by_id(sid)
-  "Read only mode.. you cannot enter or edit the forms you have filled!"
+  @s = Student.find_by_id(sid)
+  erb :readonly
 end
 
 get '/ug/:regno' do |r|
