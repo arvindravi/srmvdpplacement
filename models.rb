@@ -2,7 +2,9 @@ class Student
 include MongoMapper::Document
 
 
-  
+  key :regno, String, :unique => true
+
+
 end
 
 class App

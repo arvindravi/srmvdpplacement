@@ -2,9 +2,13 @@ require 'rubygems'
 require 'sinatra'
 require 'mongo'
 require 'mongo_mapper'
-require_relative 'models'
+
 require 'spreadsheet'
 #require 'rack-flash'
+require 'will_paginate'
+require 'will_paginate-bootstrap'
+require 'mongomapper_search'
+require_relative 'models'
 
 uri =  "mongodb://heroku_app3666321:9nvpgjk8aglthg3qfm6j8nof0o@ds031777.mongolab.com:31777/heroku_app3666321"
 #uri = "mongodb://localhost:27017"
@@ -33,8 +37,10 @@ post '/' do
 
         student = Student.find_by_regno(params[:student][:regno])
 
-        if student 
+        if student && student.attempt == 1
           redirect "/ug/edit/#{student.id}"
+        elsif student && student.attempt == 2
+           redirect "/ug/readonly/#{student.id}"
         else
           redirect "/ug/#{params[:student][:regno]}"
         end
@@ -44,10 +50,12 @@ post '/' do
       
       erb :closed
   end
-  
-   
     
-    
+end
+
+get '/ug/readonly/:id' do |sid|
+  student = Student.find_by_id(sid)
+  "Found!"
 end
 
 get '/ug/:regno' do |r|
@@ -62,6 +70,8 @@ end
 
 put '/ug/:id/save' do |id|
   @s = Student.find_by_id(params[:id])
+  pa = @s.attempt
+  @s.attempt = pa + 1
   if @s.update_attributes(params[:student])
     session[:notice] = "Your information was updated successfully! Thanks!<br />
     <strong> All the best for your placement!</strong>"
@@ -75,7 +85,9 @@ end
 
 
 post '/save' do 
+  params[:student][:attempt] = 1
   student = Student.new(params[:student])
+  #student.attempt = 1
   if student.save 
     session[:notice] = "Your information was saved successfully! Thanks!<br />
     <strong> All the best for your placement!</strong>"
@@ -113,14 +125,88 @@ end
 end
 
 get '/admin/home' do
-  if session[:admin]
-    @students = Student.all
+  if session[:admin] 
+    @app = App.find_by_aident("stf0001")
+    @sitestatus = @app.open
+    @recordcount = Student.count     
+    @students = Student.paginate(:page => params[:page], :per_page => 10)
     erb :adminhome
+    
   else 
     redirect '/admin'
   end
   
 end
+
+get '/site/close' do
+
+  if session[:admin]
+    @app = App.find_by_aident("stf0001")
+    @app.open = 0
+    if @app.save
+      session[:admin_notice] = "Website closed students cannot enter data anymore!"
+      redirect "/admin/home"
+    else
+      session[:admin_warn] = "Could not shut down website please contact the administrator!"
+      redirect "/admin/home"
+    end
+    redirect "/admin"
+  end
+  
+  
+end
+
+get '/site/open' do
+
+  if session[:admin]
+    @app = App.find_by_aident("stf0001")
+    @app.open = 1
+    if @app.save
+      session[:admin_notice] = "Website opened successfully!"
+      redirect "/admin/home"
+    else
+      session[:admin_warn] = "Could not shut open website please contact the administrator!"
+      redirect "/admin/home"
+    end
+    redirect "/admin"
+  end
+  
+  
+end
+
+get '/admin/search' do
+
+  @s = Student.find_by_regno(params[:query])
+  erb :adminsearch
+  
+end
+
+get '/info/:id' do |id|
+  
+    @s = Student.find_by_id(id)
+    erb :fulldetail
+  
+end
+
+get '/student/unblock/:id' do |id|
+  @s = Student.find_by_id(id)
+  
+  if @s.update_attributes(:attempt => 1)
+    session[:admin_notice] = "#{@s.regno} was unblocked sucessfully!"
+    redirect "/admin/home"
+  else
+    session[:admin_warn] = "#{@s.regno} could not be unblocked!"
+    redirect "/admin/home"
+  end
+end
+
+get '/student/del/:id' do |id|
+  @s = Student.find_by_id(id)
+  @s.destroy if !@s.nil? 
+  session[:admin_notice] = "#{@s.regno} was deleted sucessfully!"
+  redirect "/admin/home"
+end
+
 
 get '/admin/logout' do
   session[:admin] = nil
@@ -239,16 +325,6 @@ get '/make' do
       sheet1[i, 92] = s.no_res
           
       
-      
-      
-      
-      
-    
-     
-
-    
-    
-
       i = i+1;
 
     end
@@ -269,11 +345,6 @@ get '/make' do
         redirect '/admin'
     
   end
-  
-  
-      
-      
-  
   
 end
 

@@ -46,13 +46,11 @@
 			<% end %>
 
 			<br /><br />
-			<p>
-				<span class="badge badge-success"><%= @recordcount %></span> forms submitted in total!
-			</p>
 			
-			<form action="/admin/search" method="get" accept-charset="utf-8" class="form-search">
+			
+			<form action="/admin/search" method="get" accept-charset="utf-8" class="form-search" placeholder="Search">
 				
-					<input type="text" name="query" class="input-medium search-query" placeholder="Search">
+					<input type="text" name="query" class="input-medium search-query">
 				<button type="submit" class="btn">Search</button>
 			</form>
 			
@@ -68,10 +66,13 @@
 			<div class="row">
 				<div class="page-header">
 					<h1>
-						Registered Students
+						Search Results for "<%= params[:query] %>"
 						<small>ones who have filled in the form...</small>
 					</h1>
 				</div>
+				
+				<% if @s %>
+				
 				<table class="table table-striped table-bordered">
 				<thead>
 				<tr>
@@ -83,21 +84,26 @@
 				</thead>
 
 				<tbody>
-				<% @students.each do |s| %>
+				
 				  <tr>
-					<td><a href="/info/<%= s.id %>"><%= s.regno %></a></td>
-				  	<td><a href="/info/<%= s.id %>"><%= s.name %></a></td>
-					<td>BTech - <%= s.branch.upcase %></td>
+					<td><%= @s.regno %></td>
+				  	<td><a href="/info/<%= @s.id %>"><%= @s.name %></a></td>
+					<td>BTech - <%= @s.branch.upcase %></td>
 				  </tr>
-				<% end %>
+				
 				</tbody>
 			</table>
+			
+				<% else %>
+				
+					<div class="alert alert-error">
+						Could not be found!
+					</div>
 
-
-				 	
+				 	<% end %>
 			</div>
 			
-			<%= will_paginate @students, :renderer => BootstrapPagination::Sinatra %>
+			
 			
 		
 		</div>

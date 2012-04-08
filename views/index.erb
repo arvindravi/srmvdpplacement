@@ -26,9 +26,9 @@
 			
 			<% 
 			session[:notice] = nil
-			end %>
+			 %>
 			
-			<% if session[:error] %>
+			<% elsif session[:error] %>
 			
 				<div class="alert alert-error">
 					<%= session[:error] %>
@@ -36,8 +36,18 @@
 			
 			<% 
 			session[:error] = nil
-			end %>
+			 %>
+			<% else %>
+			<div class="alert alert-info">
+				Hi, Please enter your registration number to continue!
+				<br /><br /><strong>You will have a maximum of two attempts to fill out the form, in case you fail to fill it out correctly in the prescribed number of attempts please contact the placement cell.</strong>
+			</div>
+			
+			<% end %>
 		<div>
+			
+			
+			
 			<form action="/" class="form-horizontal inline" method="post" accept-charset="utf-8">
 				<input name="student[regno]" value="" placeholder="Registration Number"  />
 	   			<input type="submit" value="Enter" class="btn primary">
