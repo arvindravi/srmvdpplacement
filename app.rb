@@ -55,7 +55,7 @@ end
 
 get '/ug/readonly/:id' do |sid|
   student = Student.find_by_id(sid)
-  "Found!"
+  "Read only mode.. you cannot enter or edit the forms you have filled!"
 end
 
 get '/ug/:regno' do |r|
