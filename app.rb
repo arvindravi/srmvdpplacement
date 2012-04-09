@@ -118,7 +118,7 @@ end
 
 post '/admin/login' do
 
-if params[:user][:username] == "admin" and params[:user][:password] == "123456" 
+if params[:user][:username] == "admin" and params[:user][:password] == "13132727" 
   session[:admin] = "Admin"
   redirect '/admin/home'
 else
