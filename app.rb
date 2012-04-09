@@ -101,10 +101,7 @@ post '/save' do
 end
 
 
-get '/list' do
-  @students = Student.all
-  erb :list
-end
+
 
 
 
