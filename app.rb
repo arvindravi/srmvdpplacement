@@ -23,6 +23,15 @@ get '/' do
   erb :index
 end
 
+#get '/badmarks' do 
+
+#  @students = Student.sort(:regno)
+  
+#  erb :badmarks
+  
+#end
+
+
 
 post '/' do 
   

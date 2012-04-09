@@ -1,0 +1,107 @@
+<html>
+<% 
+i = 1
+@students.each do |s|
+	
+m = s.mark_tenth.to_i %>
+
+<% if m > 100 %>
+
+<% if s.regno.to_i >= 1040940001 and s.regno.to_i <= 1040940060 %>
+	
+	<p>ECE::A::<%= s.regno %>::<%= s.attempt %>::<%= s.name %>::<%= i %></p>
+	<br />
+	
+	<% end %>
+	
+	<% if s.regno.to_i >= 1040940061 and s.regno.to_i <= 1040940120 %>
+
+		<p>ECE::B::<%= s.regno %>::<%= s.attempt %>::<%= s.name %>::<%= i %></p>
+		<br />
+
+		<% end %>
+		
+		<% if s.regno.to_i >= 1040940121 and s.regno.to_i <= 1040940180 %>
+
+			<p>ECE::C::<%= s.regno %>::<%= s.attempt %>::<%= s.name %>::<%= i %></p>
+			<br />
+
+			<% end %>
+			
+			<% if s.regno.to_i >= 1040940181 and s.regno.to_i <= 1040940240 %>
+
+				<p>ECE::D::<%= s.regno %>::<%= s.attempt %>::<%= s.name %>::<%= i %></p>
+				<br />
+
+				<% end %>
+				
+					<% if s.regno.to_i >= 1040940241 and s.regno.to_i <= 1040940296 %>
+
+						<p>ECE::E::<%= s.regno %>::<%= s.attempt %>::<%= s.name %>::<%= i %></p>
+						<br />
+
+						<% end %>
+						
+						
+						
+						<% if s.regno.to_i >= 1020940001 and s.regno.to_i <= 1020940071 %>
+
+							<p>Mech::A::<%= s.regno %>::<%= s.attempt %>::<%= s.name %>::<%= i %></p>
+							<br />
+
+							<% end %>
+							
+							<% if s.regno.to_i >= 1020940072 and s.regno.to_i <= 1020940141 %>
+
+								<p>Mech::B::<%= s.regno %>::<%= s.attempt %>::<%= s.name %>::<%= i %></p>
+								<br />
+
+								<% end %>
+								
+								
+								<% if s.regno.to_i == 1020910264 %>
+
+									<p>Mech::B::<%= s.regno %>::<%= s.attempt %>::<%= s.name %>::<%= i %></p>
+									<br />
+
+									<% end %>
+									
+									<% if s.regno.to_i >= 1020940142 and s.regno.to_i <= 1020940210 %>
+
+										<p>Mech::C::<%= s.regno %>::<%= s.attempt %>::<%= s.name %>::<%= i %></p>
+										<br />
+
+										<% end %>
+										
+										
+										
+										<% if s.regno.to_i >= 1030940001 and s.regno.to_i <= 1030940073 %>
+
+											<p>CSE::A::<%= s.regno %>::<%= s.attempt %>::<%= s.name %>::<%= i %></p>
+											<br />
+
+											<% end %>
+											
+											
+												<% if s.regno.to_i == 1030910159 %>
+
+													<p>CSE::A::<%= s.regno %>::<%= s.attempt %>::<%= s.name %>::<%= i %></p>
+													<br />
+
+													<% end %>
+											
+											
+								
+								
+								
+
+<%
+  i += 1
+end %>
+
+
+
+<%
+
+end %>
+</html>
