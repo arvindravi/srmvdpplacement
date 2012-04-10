@@ -49,6 +49,43 @@ get '/ece/left' do
   
 end
 
+get '/cse/left' do
+  
+  studentsleft = Array.new
+  
+  
+  i = 1030940001
+  
+  73.times do 
+    if !Student.find_by_regno(i.to_s)
+      studentsleft.push(i)
+    end
+    i += 1
+  end
+  
+  studentsleft.inspect
+  
+end
+
+get '/mech/left' do
+  
+  studentsleft = Array.new
+  
+  
+  i = 1020940001
+  
+  210.times do 
+    if !Student.find_by_regno(i.to_s)
+      studentsleft.push(i)
+    end
+    i += 1
+  end
+  
+  studentsleft.inspect
+  
+end
+
+
 get '/unblock' do 
   
   students = Student.all
