@@ -31,7 +31,19 @@ end
   
 #end
 
+get '/unblock' do 
+  
+  students = Student.all
+  
+  students.each do |s|
+    s.attempt = 1
+    s.save
 
+  end
+  
+  "Done!"
+  
+end
 
 post '/' do 
   
