@@ -33,55 +33,58 @@ end
 
 get '/ece/left' do
   
-  studentsleft = Array.new
+  @studentsleft = Array.new
+  
   
   
   i = 1040940001
   
   296.times do 
     if !Student.find_by_regno(i.to_s)
-      studentsleft.push(i)
+      @studentsleft.push(i)
     end
     i += 1
   end
-  
-  studentsleft.inspect
+  @dept = "ECE"
+  erb :showleft
   
 end
 
 get '/cse/left' do
   
-  studentsleft = Array.new
+  @studentsleft = Array.new
   
   
   i = 1030940001
   
   73.times do 
     if !Student.find_by_regno(i.to_s)
-      studentsleft.push(i)
+      @studentsleft.push(i)
     end
     i += 1
   end
   
-  studentsleft.inspect
+  @dept = "CSE"
+  erb :showleft
   
 end
 
 get '/mech/left' do
   
-  studentsleft = Array.new
+  @studentsleft = Array.new
   
   
   i = 1020940001
   
   210.times do 
     if !Student.find_by_regno(i.to_s)
-      studentsleft.push(i)
+      @studentsleft.push(i)
     end
     i += 1
   end
   
-  studentsleft.inspect
+  @dept = "Mechanical"
+  erb :showleft
   
 end
 
