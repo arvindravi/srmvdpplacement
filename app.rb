@@ -31,6 +31,22 @@ end
   
 #end
 
+get '/ece/left' do
+  
+  studentsleft = Array.new
+  
+  
+  i = 1040940001
+  
+  296.times do 
+    if !Student.find_by_regno(i.to_s)
+      studentsleft >> i
+    end
+    i += 1
+  end
+  
+end
+
 get '/unblock' do 
   
   students = Student.all
