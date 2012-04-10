@@ -40,10 +40,12 @@ get '/ece/left' do
   
   296.times do 
     if !Student.find_by_regno(i.to_s)
-      studentsleft >> i
+      studentsleft.push(i)
     end
     i += 1
   end
+  
+  studentsleft.inspect
   
 end
 
