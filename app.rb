@@ -317,7 +317,7 @@ get '/make' do
     @students.each do |s|
         
     
-    if s.regno > 1040000000 && regno < 1041000000
+    if s.regno > 1040000000 && s.regno < 1041000000
       
       sheet1[i, 0] = s.name
       sheet1[i, 1] = s.regno
