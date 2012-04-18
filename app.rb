@@ -317,7 +317,7 @@ get '/make' do
     @students.each do |s|
         
     
-    if s.regno > 1040000000 && s.regno < 1041000000
+    if s.regno.to_i > 1040000000 && s.regno.to_i < 1041000000
       
       sheet1[i, 0] = s.name
       sheet1[i, 1] = s.regno
@@ -413,7 +413,7 @@ get '/make' do
       sheet1[i, 91] = s.pl
       sheet1[i, 92] = s.no_res
       
-    elsif s.regno > 1030000000 && s.regno < 1031000000
+    elsif s.regno.to_i > 1030000000 && s.regno.to_i < 1031000000
       
        sheet2[i, 0] = s.name
         sheet2[i, 1] = s.regno
