@@ -301,12 +301,23 @@ get '/make' do
     Spreadsheet.client_encoding = 'UTF-8'
     book = Spreadsheet::Workbook.new
     sheet1 = book.create_worksheet
+    sheet2 = book.create_worksheet
+    sheet3 = book.create_worksheet
+    
 
     sheet1.row(0).concat %w{StudentName Registration_Number Branch DOB Gender Year_From Year_To Board_Tenth Mark_Tenth Month_Of_Passing_Tenth Year_Of_Passing_Tenth Board_Twelth Mark_Twelth Month_Of_Passing_Twelth Year_Of_Passing_Twelth Diploma_Name_Of_College Mark_Diploma Month_Of_Passsing_Diploma Year_Of_Passing_Diploma Break_Years Break_Reason Sem1_GPA Sem1_History_Of_Arrears Sem1_Standing_Arreas Sem2_GPA Sem2_History_Of_Arrears Sem2_Standing_Arreas Sem3_GPA Sem3_History_Of_Arrears Sem3_Standing_Arreas Sem4_GPA Sem4_History_Of_Arrears Sem4_Standing_Arreas Sem5_GPA Sem5_History_Of_Arrears Sem5_Standing_Arreas Sem6_GPA Sem6_History_Of_Arrears Sem6_Standing_Arreas Sem7_GPA Sem7_History_Of_Arrears Sem7_Standing_Arreas Sem8_GPA Sem8_History_Of_Arrears Sem8_Standing_Arreas At_The_End_Of_Course CGPA Total_Arrears Inplant_Training1_Organization_Name Inplant_Training1_Duration_From Inplant_Training1_Duration_To Inplant_Training1_Area_Of_Work Inplant_Training1_Total_Days Inplant_Training2_Organization_Name Inplant_Training2_Duration_From Inplant_Training2_Duration_To Inplant_Training2_Area_Of_Work Inplant_Training2_Total_Days Inplant_Training3_Organization_Name Inplant_Training3_Duration_From Inplant_Training3_Duration_To Inplant_Training3_Area_Of_Work Inplant_Training3_Total_Days Electives Mother_Tongue Languages_I_Can_Speak Languages_I_Can_Read Languages_I_Can_Understand Height Weight Nationality Passport_Number Passport_Valid_Upto Address_Of_Communication Phone1 Permanent_Address Phone2 Mobile Email_Address Father_Name Father_Occupation Father_Designation Father_Organisation_Address Father_Phone_L Father_Phone_M Father_Email Mother_Name Mother_Occupation Mother_Designation Mother_Organisation_Address Mother_Phone_L Mother_Phone_M Mother_Email Activities Stay Placement Plcement_No_Reason }
+    
+    sheet2.row(0).concat %w{StudentName Registration_Number Branch DOB Gender Year_From Year_To Board_Tenth Mark_Tenth Month_Of_Passing_Tenth Year_Of_Passing_Tenth Board_Twelth Mark_Twelth Month_Of_Passing_Twelth Year_Of_Passing_Twelth Diploma_Name_Of_College Mark_Diploma Month_Of_Passsing_Diploma Year_Of_Passing_Diploma Break_Years Break_Reason Sem1_GPA Sem1_History_Of_Arrears Sem1_Standing_Arreas Sem2_GPA Sem2_History_Of_Arrears Sem2_Standing_Arreas Sem3_GPA Sem3_History_Of_Arrears Sem3_Standing_Arreas Sem4_GPA Sem4_History_Of_Arrears Sem4_Standing_Arreas Sem5_GPA Sem5_History_Of_Arrears Sem5_Standing_Arreas Sem6_GPA Sem6_History_Of_Arrears Sem6_Standing_Arreas Sem7_GPA Sem7_History_Of_Arrears Sem7_Standing_Arreas Sem8_GPA Sem8_History_Of_Arrears Sem8_Standing_Arreas At_The_End_Of_Course CGPA Total_Arrears Inplant_Training1_Organization_Name Inplant_Training1_Duration_From Inplant_Training1_Duration_To Inplant_Training1_Area_Of_Work Inplant_Training1_Total_Days Inplant_Training2_Organization_Name Inplant_Training2_Duration_From Inplant_Training2_Duration_To Inplant_Training2_Area_Of_Work Inplant_Training2_Total_Days Inplant_Training3_Organization_Name Inplant_Training3_Duration_From Inplant_Training3_Duration_To Inplant_Training3_Area_Of_Work Inplant_Training3_Total_Days Electives Mother_Tongue Languages_I_Can_Speak Languages_I_Can_Read Languages_I_Can_Understand Height Weight Nationality Passport_Number Passport_Valid_Upto Address_Of_Communication Phone1 Permanent_Address Phone2 Mobile Email_Address Father_Name Father_Occupation Father_Designation Father_Organisation_Address Father_Phone_L Father_Phone_M Father_Email Mother_Name Mother_Occupation Mother_Designation Mother_Organisation_Address Mother_Phone_L Mother_Phone_M Mother_Email Activities Stay Placement Plcement_No_Reason }
+    
+    
+    sheet3.row(0).concat %w{StudentName Registration_Number Branch DOB Gender Year_From Year_To Board_Tenth Mark_Tenth Month_Of_Passing_Tenth Year_Of_Passing_Tenth Board_Twelth Mark_Twelth Month_Of_Passing_Twelth Year_Of_Passing_Twelth Diploma_Name_Of_College Mark_Diploma Month_Of_Passsing_Diploma Year_Of_Passing_Diploma Break_Years Break_Reason Sem1_GPA Sem1_History_Of_Arrears Sem1_Standing_Arreas Sem2_GPA Sem2_History_Of_Arrears Sem2_Standing_Arreas Sem3_GPA Sem3_History_Of_Arrears Sem3_Standing_Arreas Sem4_GPA Sem4_History_Of_Arrears Sem4_Standing_Arreas Sem5_GPA Sem5_History_Of_Arrears Sem5_Standing_Arreas Sem6_GPA Sem6_History_Of_Arrears Sem6_Standing_Arreas Sem7_GPA Sem7_History_Of_Arrears Sem7_Standing_Arreas Sem8_GPA Sem8_History_Of_Arrears Sem8_Standing_Arreas At_The_End_Of_Course CGPA Total_Arrears Inplant_Training1_Organization_Name Inplant_Training1_Duration_From Inplant_Training1_Duration_To Inplant_Training1_Area_Of_Work Inplant_Training1_Total_Days Inplant_Training2_Organization_Name Inplant_Training2_Duration_From Inplant_Training2_Duration_To Inplant_Training2_Area_Of_Work Inplant_Training2_Total_Days Inplant_Training3_Organization_Name Inplant_Training3_Duration_From Inplant_Training3_Duration_To Inplant_Training3_Area_Of_Work Inplant_Training3_Total_Days Electives Mother_Tongue Languages_I_Can_Speak Languages_I_Can_Read Languages_I_Can_Understand Height Weight Nationality Passport_Number Passport_Valid_Upto Address_Of_Communication Phone1 Permanent_Address Phone2 Mobile Email_Address Father_Name Father_Occupation Father_Designation Father_Organisation_Address Father_Phone_L Father_Phone_M Father_Email Mother_Name Mother_Occupation Mother_Designation Mother_Organisation_Address Mother_Phone_L Mother_Phone_M Mother_Email Activities Stay Placement Plcement_No_Reason }
+    
+    
     i = 1; 
     @students.each do |s|
         
     
+    if s.regno > 1040000000 && regno < 1041000000
       
       sheet1[i, 0] = s.name
       sheet1[i, 1] = s.regno
@@ -401,6 +412,201 @@ get '/make' do
       sheet1[i, 90] = s.stay
       sheet1[i, 91] = s.pl
       sheet1[i, 92] = s.no_res
+      
+    elsif s.regno > 1030000000 && s.regno < 1031000000
+      
+       sheet2[i, 0] = s.name
+        sheet2[i, 1] = s.regno
+        sheet2[i, 2] = s.branch
+        sheet2[i, 3] = "#{s.d}/#{s.m}#{s.y}"
+        sheet2[i, 4] = s.gender
+        sheet2[i, 5] = s.a_y1
+        sheet2[i, 6] = s.a_y2
+        sheet2[i, 7] = s.board_tenth
+        sheet2[i, 8] = s.mark_tenth 
+        sheet2[i, 9] = s.monthofpassing_tenth
+        sheet2[i, 10] = s.yearofpassing_tenth
+        sheet2[i, 11] = s.board_twelth
+        sheet2[i, 12] = s.mark_twelth
+        sheet2[i, 13] = s.monthofpassing_twelth
+        sheet2[i, 14] = s.yearofpassing_twelth
+        sheet2[i, 15] = s.coll_diploma
+        sheet2[i, 16] = s.diploma_mark
+        sheet2[i, 17] = s.diploma_month
+        sheet2[i, 18] = s.diploma_year 
+        sheet2[i, 19] = s.break_y
+        sheet2[i, 20] = s.break_r
+        sheet2[i, 21] = s.sem1_gpa
+        sheet2[i, 22] = s.sem1_a
+        sheet2[i, 23] = s.sem1_sa
+        sheet2[i, 24] = s.sem2_gpa
+        sheet2[i, 25] = s.sem2_a
+        sheet2[i, 26] = s.sem2_sa
+        sheet2[i, 27] = s.sem3_gpa
+        sheet2[i, 28] = s.sem3_a 
+        sheet2[i, 29] = s.sem3_sa
+        sheet2[i, 30] = s.sem4_gpa
+        sheet2[i, 31] = s.sem4_a
+        sheet2[i, 32] = s.sem4_sa
+        sheet2[i, 33] = s.sem5_gpa
+        sheet2[i, 34] = s.sem5_a
+        sheet2[i, 35] = s.sem5_sa
+        sheet2[i, 36] = s.sem6_gpa
+        sheet2[i, 37] = s.sem6_a
+        sheet2[i, 38] = s.sem6_sa 
+        sheet2[i, 39] = s.sem7_gpa
+        sheet2[i, 40] = s.sem7_a
+        sheet2[i, 41] = s.sem7_sa
+        sheet2[i, 42] = s.sem8_gpa
+        sheet2[i, 43] = s.sem8_a
+        sheet2[i, 44] = s.sem8_sa
+        sheet2[i, 45] = s.eoc
+        sheet2[i, 46] = s.cgpa
+        sheet2[i, 47] = s.tot_a
+        sheet2[i, 48] = s.imp1_n 
+        sheet2[i, 49] = s.imp1_d_f
+        sheet2[i, 50] = s.imp1_d_t
+        sheet2[i, 51] = s.imp1_w
+        sheet2[i, 52] = s.imp1_dd
+        sheet2[i, 53] = s.imp2_n
+        sheet2[i, 54] = s.imp2_w
+        sheet2[i, 55] = s.imp2_dd
+        sheet2[i, 56] = s.imp3_n
+        sheet2[i, 57] = s.imp3_w
+        sheet2[i, 58] = s.imp3_dd 
+        sheet2[i, 59] = s.electives
+        sheet2[i, 60] = s.m_t
+        sheet2[i, 61] = s.lang_speak
+        sheet2[i, 62] = s.lang_read
+        sheet2[i, 63] = s.lang_und
+        sheet2[i, 64] = s.height
+        sheet2[i, 65] = s.weight
+        sheet2[i, 66] = s.natl
+        sheet2[i, 67] = s.ppn
+        sheet2[i, 68] = s.pp_v 
+        sheet2[i, 69] = s.address
+        sheet2[i, 70] = s.ph1
+        sheet2[i, 71] = s.add_p
+        sheet2[i, 72] = s.ph2
+        sheet2[i, 73] = s.mob
+        sheet2[i, 74] = s.email
+        sheet2[i, 75] = s.father_n
+        sheet2[i, 76] = s.father_o
+        sheet2[i, 77] = s.father_d
+        sheet2[i, 78] = s.father_org 
+        sheet2[i, 79] = s.father_ph
+        sheet2[i, 80] = s.father_mob
+        sheet2[i, 81] = s.father_email
+        sheet2[i, 82] = s.mother_n
+        sheet2[i, 83] = s.mother_o
+        sheet2[i, 84] = s.mother_d
+        sheet2[i, 85] = s.mother_org
+        sheet2[i, 86] = s.mother_ph
+        sheet2[i, 87] = s.mother_mob
+        sheet2[i, 88] = s.mother_email 
+        sheet2[i, 89] = s.activities
+        sheet2[i, 90] = s.stay
+        sheet2[i, 91] = s.pl
+        sheet2[i, 92] = s.no_res
+      
+      
+    else
+      
+       sheet3[i, 0] = s.name
+        sheet3[i, 1] = s.regno
+        sheet3[i, 2] = s.branch
+        sheet3[i, 3] = "#{s.d}/#{s.m}#{s.y}"
+        sheet3[i, 4] = s.gender
+        sheet3[i, 5] = s.a_y1
+        sheet3[i, 6] = s.a_y2
+        sheet3[i, 7] = s.board_tenth
+        sheet3[i, 8] = s.mark_tenth 
+        sheet3[i, 9] = s.monthofpassing_tenth
+        sheet3[i, 10] = s.yearofpassing_tenth
+        sheet3[i, 11] = s.board_twelth
+        sheet3[i, 12] = s.mark_twelth
+        sheet3[i, 13] = s.monthofpassing_twelth
+        sheet3[i, 14] = s.yearofpassing_twelth
+        sheet3[i, 15] = s.coll_diploma
+        sheet3[i, 16] = s.diploma_mark
+        sheet3[i, 17] = s.diploma_month
+        sheet3[i, 18] = s.diploma_year 
+        sheet3[i, 19] = s.break_y
+        sheet3[i, 20] = s.break_r
+        sheet3[i, 21] = s.sem1_gpa
+        sheet3[i, 22] = s.sem1_a
+        sheet3[i, 23] = s.sem1_sa
+        sheet3[i, 24] = s.sem2_gpa
+        sheet3[i, 25] = s.sem2_a
+        sheet3[i, 26] = s.sem2_sa
+        sheet3[i, 27] = s.sem3_gpa
+        sheet3[i, 28] = s.sem3_a 
+        sheet3[i, 29] = s.sem3_sa
+        sheet3[i, 30] = s.sem4_gpa
+        sheet3[i, 31] = s.sem4_a
+        sheet3[i, 32] = s.sem4_sa
+        sheet3[i, 33] = s.sem5_gpa
+        sheet3[i, 34] = s.sem5_a
+        sheet3[i, 35] = s.sem5_sa
+        sheet3[i, 36] = s.sem6_gpa
+        sheet3[i, 37] = s.sem6_a
+        sheet3[i, 38] = s.sem6_sa 
+        sheet3[i, 39] = s.sem7_gpa
+        sheet3[i, 40] = s.sem7_a
+        sheet3[i, 41] = s.sem7_sa
+        sheet3[i, 42] = s.sem8_gpa
+        sheet3[i, 43] = s.sem8_a
+        sheet3[i, 44] = s.sem8_sa
+        sheet3[i, 45] = s.eoc
+        sheet3[i, 46] = s.cgpa
+        sheet3[i, 47] = s.tot_a
+        sheet3[i, 48] = s.imp1_n 
+        sheet3[i, 49] = s.imp1_d_f
+        sheet3[i, 50] = s.imp1_d_t
+        sheet3[i, 51] = s.imp1_w
+        sheet3[i, 52] = s.imp1_dd
+        sheet3[i, 53] = s.imp2_n
+        sheet3[i, 54] = s.imp2_w
+        sheet3[i, 55] = s.imp2_dd
+        sheet3[i, 56] = s.imp3_n
+        sheet3[i, 57] = s.imp3_w
+        sheet3[i, 58] = s.imp3_dd 
+        sheet3[i, 59] = s.electives
+        sheet3[i, 60] = s.m_t
+        sheet3[i, 61] = s.lang_speak
+        sheet3[i, 62] = s.lang_read
+        sheet3[i, 63] = s.lang_und
+        sheet3[i, 64] = s.height
+        sheet3[i, 65] = s.weight
+        sheet3[i, 66] = s.natl
+        sheet3[i, 67] = s.ppn
+        sheet3[i, 68] = s.pp_v 
+        sheet3[i, 69] = s.address
+        sheet3[i, 70] = s.ph1
+        sheet3[i, 71] = s.add_p
+        sheet3[i, 72] = s.ph2
+        sheet3[i, 73] = s.mob
+        sheet3[i, 74] = s.email
+        sheet3[i, 75] = s.father_n
+        sheet3[i, 76] = s.father_o
+        sheet3[i, 77] = s.father_d
+        sheet3[i, 78] = s.father_org 
+        sheet3[i, 79] = s.father_ph
+        sheet3[i, 80] = s.father_mob
+        sheet3[i, 81] = s.father_email
+        sheet3[i, 82] = s.mother_n
+        sheet3[i, 83] = s.mother_o
+        sheet3[i, 84] = s.mother_d
+        sheet3[i, 85] = s.mother_org
+        sheet3[i, 86] = s.mother_ph
+        sheet3[i, 87] = s.mother_mob
+        sheet3[i, 88] = s.mother_email 
+        sheet3[i, 89] = s.activities
+        sheet3[i, 90] = s.stay
+        sheet3[i, 91] = s.pl
+        sheet3[i, 92] = s.no_res
+      
+    end
           
       
       i = i+1;
