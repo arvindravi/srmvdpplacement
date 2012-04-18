@@ -296,7 +296,7 @@ end
 get '/make' do
   if session[:admin] 
     
-    @students = Student.all.sort(:regno.desc)
+    @students = Student.sort(:regno.desc)
 
     Spreadsheet.client_encoding = 'UTF-8'
     book = Spreadsheet::Workbook.new
