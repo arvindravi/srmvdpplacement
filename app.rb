@@ -108,7 +108,7 @@ post '/' do
   
   @app = App.find_by_aident("stf0001")
   
-  if @app.open == 1 
+  if @app.open == 0 
     m = /10(2|3|4)09(4|1)0\d\d\d/.match(params[:student][:regno])
       if m.nil?
         session[:error] = "<strong>Invalid Registration Number!</strong>"
